@@ -1,7 +1,6 @@
 ---
 - name: Convert
-  hosts: all
-  strategy: free
+  hosts: localhost
   become: true
   force_handlers: true
   vars:

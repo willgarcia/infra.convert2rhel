@@ -1,7 +1,6 @@
 ---
 - name: Analysis
-  hosts: all
-  strategy: free
+  hosts: localhost
   gather_facts: true
   become: true
   force_handlers: true
