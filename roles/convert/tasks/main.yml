@@ -8,14 +8,7 @@
   ansible.builtin.shell: >
     export PATH={{ convert_os_path }}
     set -o pipefail;
-    convert2rhel convert -y
-    {{ convert_convert2rhel_opts }}
-    -c {{ convert2rhel_configfile.path }}
-    {{ convert_convert2rhel_enable_repos_args }}
-    {{ convert_convert2rhel_disable_repos_args }}
-    {% if convert_convert2rhel_eus %}
-    --eus
-    {% endif %}
+    convert2rhel --org 12451665 --activationkey convert2rhel -y
     2>&1
   register: convert2rhel
   args:
@@ -23,7 +16,19 @@
   async: "{{ convert_async_timeout_maximum | int }}"
   poll: "{{ convert_async_poll_interval | int }}"
   changed_when: convert2rhel.rc != 0
-  notify: Remove temporary configuration file
+  notify:
+    Remove temporary configuration file
+
+    # convert2rhel convert -y
+    # convert2rhel --org 12451665 --activationkey convert2rhel -y
+
+    # {{ convert_convert2rhel_opts }}
+    # -c {{ convert2rhel_configfile.path }}
+    # {{ convert_convert2rhel_enable_repos_args }}
+    # {{ convert_convert2rhel_disable_repos_args }}
+    # {% if convert_convert2rhel_eus %}
+    # --eus
+    # {% endif %}
 
 - name: Include the parse_c2r_report role to check if conversion inhibited
   ansible.builtin.include_role:
