@@ -15,5 +15,5 @@
   tasks:
     - name: Generate pre-conversion analysis report
       ansible.builtin.import_role:
-        name: infra.convert2rhel.analysis
+        name: analysis
 ...

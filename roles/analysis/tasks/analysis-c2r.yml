@@ -25,6 +25,4 @@
 
 - name: Include the parse_c2r_report role to check if conversion inhibited
   ansible.builtin.include_role:
-    name: infra.convert2rhel.parse_c2r_report
-
-...
+    name: parse_c2r_report
