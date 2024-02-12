@@ -15,7 +15,6 @@
 
 - name: Parse report results
   ansible.builtin.set_fact:
-    convert2rhel_report_txt: "{{ results_txt.content | b64decode | split('\n') }}"
     convert2rhel_report_json: "{{ results_json.content | b64decode | from_json }}"
 
 - name: Check for inhibitor statuses in the report
@@ -31,4 +30,3 @@
       - "OVERRIDABLE"
       - "ERROR"
     report_message_levels: "{{ lookup('ansible.utils.to_paths', convert2rhel_report_json) | dict2items | selectattr('key', 'search', 'level') | items2dict }}"
-...
