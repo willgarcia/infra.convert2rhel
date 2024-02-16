@@ -2,13 +2,20 @@
 # tasks file for convert
 - name: Check distribution and install convert2rhel
   ansible.builtin.import_role:
-    name: common
+    name: infra.convert2rhel.common
 
 - name: Convert2RHEL convert
   ansible.builtin.shell: >
     export PATH={{ convert_os_path }}
     set -o pipefail;
-    convert2rhel --org 12451665 --activationkey convert2rhel -y
+    convert2rhel convert -y
+    {{ convert_convert2rhel_opts }}
+    -c {{ convert2rhel_configfile.path }}
+    {{ convert_convert2rhel_enable_repos_args }}
+    {{ convert_convert2rhel_disable_repos_args }}
+    {% if convert_convert2rhel_eus %}
+    --eus
+    {% endif %}
     2>&1
   register: convert2rhel
   args:
@@ -16,33 +23,15 @@
   async: "{{ convert_async_timeout_maximum | int }}"
   poll: "{{ convert_async_poll_interval | int }}"
   changed_when: convert2rhel.rc != 0
-  notify:
-    Remove temporary configuration file
-
-    # convert2rhel convert -y
-    # convert2rhel --org 12451665 --activationkey convert2rhel -y
-
-    # {{ convert_convert2rhel_opts }}
-    # -c {{ convert2rhel_configfile.path }}
-    # {{ convert_convert2rhel_enable_repos_args }}
-    # {{ convert_convert2rhel_disable_repos_args }}
-    # {% if convert_convert2rhel_eus %}
-    # --eus
-    # {% endif %}
-
-- name: Include the parse_c2r_report role to check if conversion inhibited
-  ansible.builtin.include_role:
-    name: parse_c2r_report
-
-- name: Display Conversion Status
-  ansible.builtin.debug:
-    msg: "Conversion was {{ 'inhibited' if conversion_inhibited else 'successful' }}"
+  notify: Remove temporary configuration file
 
 - name: Reboot if requested
   ansible.builtin.reboot:
     msg: "Host is starting Convert2RHEL!"
     reboot_timeout: 120
+  timeout: 180
   when: convert_reboot_requested
 
 - name: Remove Convert2RHEL
   ansible.builtin.include_tasks: remove-c2r.yml
+...
