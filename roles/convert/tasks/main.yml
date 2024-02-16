@@ -2,7 +2,7 @@
 # tasks file for convert
 - name: Check distribution and install convert2rhel
   ansible.builtin.import_role:
-    name: ../../common
+    name: ../roles/common
 
 - name: Convert2RHEL convert
   ansible.builtin.shell: >
@@ -34,4 +34,3 @@
 
 - name: Remove Convert2RHEL
   ansible.builtin.include_tasks: remove-c2r.yml
-...
