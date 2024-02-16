@@ -12,5 +12,5 @@
   tasks:
     - name: Perform OS conversion
       ansible.builtin.import_role:
-        name: convert
+        name: ../roles/convert
 ...

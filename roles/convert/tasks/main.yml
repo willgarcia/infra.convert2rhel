@@ -2,7 +2,7 @@
 # tasks file for convert
 - name: Check distribution and install convert2rhel
   ansible.builtin.import_role:
-    name: infra.convert2rhel.common
+    name: ../../common
 
 - name: Convert2RHEL convert
   ansible.builtin.shell: >

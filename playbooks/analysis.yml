@@ -14,5 +14,5 @@
   tasks:
     - name: Generate pre-conversion analysis report
       ansible.builtin.import_role:
-        name: analysis
+        name: ../roles/analysis
 ...
