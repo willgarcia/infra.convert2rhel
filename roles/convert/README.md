@@ -24,8 +24,6 @@ RHSM credentials provide a method to identify content views available from Red H
 
 | Name                  | Type | Default value           | Description                                     |
 |-----------------------|------|-------------------------|-------------------------------------------------|
-| rhsm_username         | String   |  | RHSM username |
-| rhsm_password         | String   |  | RHSM password |
 | rhsm_org              | String   |  | RHSM organization |
 | rhsm_activation_key   | String   |  | RHSM activation key |
 
